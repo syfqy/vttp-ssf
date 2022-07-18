@@ -15,23 +15,20 @@
     <section class="form">
         <div th:object=${cart} class="form-field">
             Username:
-            <input type="text" th:field="*{username}">
+            <input id="username-input" type="text" th:field="*{username}">
         </div>
 
-        <form action="#" th:action="@{/}" th:object=${item} method="post">
+        <form action="#" th:action="@{/cart}" th:object=${item} method="post">
             Item:
             <input type="text" th:field="*{name}">
             <input type="submit" value="+">
         </form>
     </section>
 
-    <section class="shopping-cart">
-        <h2>Your Shopping Cart: </h2>
-        <ul th:each="item : ${itemList}">
-            <li th:text="${item.toString()}"></li>
-            <button id="shift-up-btn">^</button>
-        </ul>
-    </section>
+    <section id="placeholder"></section>
+    
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="index.js"></script>
 
 </html>

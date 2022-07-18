@@ -1,9 +1,11 @@
 package vttp.ssf.day4.models;
 
+import java.io.Serializable;
+
 import org.springframework.stereotype.Component;
 
 @Component
-public class Item {
+public class Item implements Serializable{
 
     private static int count = 0;
     private int id;

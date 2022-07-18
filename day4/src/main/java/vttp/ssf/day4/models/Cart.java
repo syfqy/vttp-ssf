@@ -2,6 +2,7 @@ package vttp.ssf.day4.models;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -12,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Cart {
+public class Cart implements Serializable {
 
     private static final Logger logger = LoggerFactory.getLogger(Cart.class);
     private static final String defaultDataDir = System.getProperty("user.dir") + "/data";

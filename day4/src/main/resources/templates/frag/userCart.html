@@ -1,0 +1,7 @@
+<section th:fragment="user-cart" th:object=${cart}>
+    <h2><span th:text="*{username}"></span>'s Shopping Cart: </h2>
+    <ul th:each="item : *{itemList}">
+        <li th:text="${item}"></li>
+        <button id="shift-up-btn">^</button>
+    </ul>
+</section>
