@@ -12,7 +12,6 @@ import vttp.ssf.day4.models.Cart;
 import vttp.ssf.day4.models.Item;
 
 @Controller
-// @RequestMapping(path = "/cart")
 public class CartController {
 
     @Autowired
@@ -20,28 +19,46 @@ public class CartController {
 
     @Autowired
     Item item;
-    
-    @GetMapping(value={"/cart", "/cart/{username}"})
+
+    @GetMapping(value = { "/cart", "/cart/{username}" })
     public String showUserCart(Model model, @PathVariable(required = false) String username) {
+
         model.addAttribute("cart", cart);
         model.addAttribute("item", item);
 
+        // if username entered, get user's cart and return template fragment
         if (username != null) {
             System.out.println("Requested for " + username);
-            model.addAttribute("cart", generateTestCart(username));
+            model.addAttribute("cart", generateTestCart(username)); // TODO: Replace with query via model
+            System.out.println("returning user cart");
             return "frag/userCart :: user-cart";
-        } 
-        System.out.println("returning cart");
+        }
+
+        System.out.println("returning empty cart");
         return "cart";
     }
 
-    // public String addItem(@ModelAttribute Item item, 
-    //                         @ModelAttribute Cart cart, 
-    //                         Model model) {
-    //     System.out.printf("Added new item: id%d %s\n", item.getId(), item);
-    //     return "cart";
-    // }
+    @PostMapping(value = { "/cart", "/cart/{username}" })
+    public String addItem(@ModelAttribute Item item,
+            @ModelAttribute Cart cart,
+            Model model) {
 
+        String username = cart.getUsername();
+        Cart userCart = generateTestCart(username);
+        userCart.addItem(item);
+
+        for (Item it : cart.getItemList()) {
+            System.out.println(it);
+        }
+
+        model.addAttribute("cart", userCart);
+        System.out.printf("Added new item: id%d %s\n", item.getId(), item);
+        System.out.println("returning added user cart");
+
+        return "frag/userCart :: user-cart";
+    }
+
+    // TODO: Remove after controller complete
     private Cart generateTestCart(String username) {
         Cart userCart = new Cart(username);
         Item i1 = new Item("test1", 1);
