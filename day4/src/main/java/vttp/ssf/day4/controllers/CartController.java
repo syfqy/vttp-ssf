@@ -21,25 +21,27 @@ public class CartController {
     Item item;
 
     @GetMapping(value = { "/cart", "/cart/{username}" })
-    public String showUserCart(Model model, @PathVariable(required = false) String username) {
-
+    public String showCart(Model model) {
+        // on first page load
         model.addAttribute("cart", cart);
         model.addAttribute("item", item);
-
+        return "cart";
+    }
+    
+    @GetMapping(value = "/cart/{username}")
+    public String showUserCart(Model model, @PathVariable String username) {
         // if username entered, get user's cart and return template fragment
-        if (username != null) {
+        if (username != null && username != "") {
             System.out.println("Requested for " + username);
             Cart userCart = new Cart(username);
             model.addAttribute("cart", userCart);
-            System.out.println("Loading cart: " +  userCart);
+            System.out.println("Loading cart: " + userCart);
             return "frag/userCart :: user-cart";
         }
-
-        System.out.println("returning empty cart");
-        return "cart";
+        return "frag/emptyCart :: empty-cart";
     }
-
-    @PostMapping(value = { "/cart", "/cart/{username}" })
+    
+    @PostMapping(value = { "/add-item" })
     public String addItem(@ModelAttribute Item item,
             @ModelAttribute Cart cart,
             Model model) {
@@ -47,16 +49,26 @@ public class CartController {
         // Get user's cart
         String username = cart.getUsername();
         // SMELL: Instantiating new Cart and reading file after every item added?
-        Cart userCart = new Cart(username); 
+        Cart userCart = new Cart(username);
 
         // add new item to cart
         userCart.addItem(item);
 
         // save cart to file
-
         model.addAttribute("cart", userCart);
         System.out.printf("Added new item: id%d %s\n", item.getId(), item);
         System.out.println("returning added user cart");
+
+        return "frag/userCart :: user-cart";
+    }
+
+    @PostMapping(value = { "/delete-item" })
+    public String deleteItem(@ModelAttribute Item item, @ModelAttribute Cart cart, Model model) {
+        // Get user's cart
+        String username = cart.getUsername();
+        Cart userCart = new Cart(username);
+
+        // delete item
 
         return "frag/userCart :: user-cart";
     }
