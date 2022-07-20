@@ -7,10 +7,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class Item implements Serializable{
 
+    // ******************************
+    // * Instance attributes
+    // ******************************
     private static int count = 0; // TODO: Replace with randomly generated uuid
     private int id;
     public String name;
     public int qty;
+
+    // ******************************
+    // * Constructors
+    // ******************************
 
     public Item() {
         this.id = count;
@@ -27,6 +34,10 @@ public class Item implements Serializable{
         this(name);
         this.qty = qty;
     }
+
+    // ******************************
+    // * Getters & Setters
+    // ******************************
 
     public int getId() {
         return id;
@@ -47,6 +58,10 @@ public class Item implements Serializable{
     public int getQty() {
         return qty;
     }
+
+    // ******************************
+    // * Public methods
+    // ******************************
 
     public void setQty(int qty) {
         this.qty = qty;
