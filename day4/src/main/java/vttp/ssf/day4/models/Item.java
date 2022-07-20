@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Item implements Serializable{
 
-    private static int count = 0;
+    private static int count = 0; // TODO: Replace with randomly generated uuid
     private int id;
     public String name;
     public int qty;

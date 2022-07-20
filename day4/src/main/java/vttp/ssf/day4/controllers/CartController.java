@@ -29,8 +29,9 @@ public class CartController {
         // if username entered, get user's cart and return template fragment
         if (username != null) {
             System.out.println("Requested for " + username);
-            model.addAttribute("cart", generateTestCart(username)); // TODO: Replace with query via model
-            System.out.println("returning user cart");
+            Cart userCart = new Cart(username);
+            model.addAttribute("cart", userCart);
+            System.out.println("Loading cart: " +  userCart);
             return "frag/userCart :: user-cart";
         }
 
@@ -43,13 +44,15 @@ public class CartController {
             @ModelAttribute Cart cart,
             Model model) {
 
+        // Get user's cart
         String username = cart.getUsername();
-        Cart userCart = generateTestCart(username);
+        // SMELL: Instantiating new Cart and reading file after every item added?
+        Cart userCart = new Cart(username); 
+
+        // add new item to cart
         userCart.addItem(item);
 
-        for (Item it : cart.getItemList()) {
-            System.out.println(it);
-        }
+        // save cart to file
 
         model.addAttribute("cart", userCart);
         System.out.printf("Added new item: id%d %s\n", item.getId(), item);
