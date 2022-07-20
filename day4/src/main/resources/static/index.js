@@ -20,7 +20,7 @@ $(document).ready(() => {
 
     // on adding new item
     $("#form").submit((e) => {
-        const addItemUrl = "/cart"
+        const addItemUrl = "/add-item"
         const form = e.target;
 
         // async POST request to add new item to user's cart
@@ -38,4 +38,25 @@ $(document).ready(() => {
 
         e.preventDefault();
     })
+
+    // on deleting item
+    $("#delete-btn").click((e) => {
+        const addItemUrl = "/add-item"
+        const form = e.target;
+
+        // async POST request to add new item to user's cart
+        fetch(addItemUrl, {
+            method: form.method,
+            body: new FormData(form)
+        }).then((response) => {
+            return response.text();
+        }).then((html) => {
+            console.log(html)
+            $("#cart-items-list")[0].innerHTML = html;
+        }).catch((err) => {
+            console.warn("Something went wrong", err);
+        })
+
+    })
+
 })
