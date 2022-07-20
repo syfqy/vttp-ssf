@@ -20,7 +20,7 @@ public class CartController {
     @Autowired
     Item item;
 
-    @GetMapping(value = { "/cart", "/cart/{username}" })
+    @GetMapping(value = { "/cart"})
     public String showCart(Model model) {
         // on first page load
         model.addAttribute("cart", cart);
@@ -41,6 +41,7 @@ public class CartController {
         return "frag/emptyCart :: empty-cart";
     }
     
+    // TODO: handle if item already in cart
     @PostMapping(value = { "/add-item" })
     public String addItem(@ModelAttribute Item item,
             @ModelAttribute Cart cart,
@@ -56,7 +57,7 @@ public class CartController {
 
         // save cart to file
         model.addAttribute("cart", userCart);
-        System.out.printf("Added new item: id%d %s\n", item.getId(), item);
+        System.out.printf("Added new item: %s\n", item);
         System.out.println("returning added user cart");
 
         return "frag/userCart :: user-cart";
@@ -69,18 +70,9 @@ public class CartController {
         Cart userCart = new Cart(username);
 
         // delete item
+        userCart.deleteItem(item);
 
         return "frag/userCart :: user-cart";
-    }
-
-    // TODO: Remove after controller complete
-    private Cart generateTestCart(String username) {
-        Cart userCart = new Cart(username);
-        Item i1 = new Item("test1", 1);
-        Item i2 = new Item("test2", 3);
-        userCart.addItem(i1);
-        userCart.addItem(i2);
-        return userCart;
     }
 
 }
