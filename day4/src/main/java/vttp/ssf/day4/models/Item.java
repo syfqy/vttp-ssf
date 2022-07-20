@@ -1,6 +1,7 @@
 package vttp.ssf.day4.models;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
@@ -10,8 +11,8 @@ public class Item implements Serializable{
     // ******************************
     // * Instance attributes
     // ******************************
-    private static int count = 0; // TODO: Replace with randomly generated uuid
-    private int id;
+
+    private String id;
     public String name;
     public int qty;
 
@@ -20,9 +21,8 @@ public class Item implements Serializable{
     // ******************************
 
     public Item() {
-        this.id = count;
+        this.id = UUID.randomUUID().toString();;
         this.qty = 1;
-        count++;
     }
     
     public Item(String name) {
@@ -30,8 +30,9 @@ public class Item implements Serializable{
         this.name = name;
     }
 
-    public Item(String name, int qty) {
-        this(name);
+    public Item(String id,String name, int qty) {
+        this.id = id;
+        this.name = name;
         this.qty = qty;
     }
 
@@ -39,11 +40,11 @@ public class Item implements Serializable{
     // * Getters & Setters
     // ******************************
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -58,14 +59,14 @@ public class Item implements Serializable{
     public int getQty() {
         return qty;
     }
+    
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
 
     // ******************************
     // * Public methods
     // ******************************
-
-    public void setQty(int qty) {
-        this.qty = qty;
-    }
 
 
     public void incrementQty() {
@@ -85,6 +86,16 @@ public class Item implements Serializable{
     @Override
     public String toString() {
         return this.qty + "x " + this.name;
+    }
+
+    public String getItemString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("id: " + id + ", ");
+        sb.append("name: " + name + ", ");
+        sb.append("qty: " + String.valueOf(qty));
+
+        return sb.toString();
+
     }
 
 }

@@ -4,7 +4,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +44,27 @@ public class CartIOUtil {
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
+
+    }
+
+    public static List<Map> readItemsFromFile(File userCartFile) {
+        List<Map> cartData = new LinkedList<Map>();
+        try {
+            List<String> itemStrArr = Files.readAllLines(userCartFile.toPath());
+            for (String itemData : itemStrArr) {
+                Map<String, String> itemAttrMap = new HashMap<>();
+                String[] itemSplitComma = itemData.split(",");
+                for (String item :itemSplitComma) {
+                    String[] itemSplitColon = item.split(":");
+                    itemAttrMap.put(itemSplitColon[0].trim(), itemSplitColon[1].trim());
+                }
+                cartData.add(itemAttrMap);
+            }
+
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
+    return cartData;
 
     }
 

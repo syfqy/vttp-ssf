@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import static vttp.ssf.day4.utils.CartIOUtil.*;
 
@@ -79,55 +80,47 @@ public class Cart implements Serializable {
     // * Private methods
     // ******************************
     
+    private boolean isExistingUser() {
+            return userCartFile.exists();
+        }
+    
     private void createUserCartFile() {
         createDir(userCartFile);
     }
 
     private void saveCart() {
         List<String> itemStringList = itemList.stream()
-                                            .map(item -> item.toString())
+                                            .map(item -> item.getItemString())
                                             .toList();
         writeToFile(userCartFile, itemStringList);
         System.out.println("Cart saved");
     }
 
-    private boolean isExistingUser() {
-        return userCartFile.exists();
+    private boolean isItemInCart(Item item) {
+        List<String> itemNames = this.itemList.stream().map(i -> i.getName()).toList();
+        return itemNames.contains(item.getName());
     }
 
     // ******************************
     // * Public methods
     // ******************************
 
-    private List<String> retrieveCartData(File userCartFile) {
-        List<String> cartData = new LinkedList<String>();
-        try {
-            cartData = Files.readAllLines(userCartFile.toPath());
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
-        return cartData;
-    }
-
     public List<Item> loadCart(File userCartFile) {
-        List<Item> itemList = new LinkedList<Item>();
+        List<Item> cart = new LinkedList<Item>();
 
-        // read data from user file and rebuild item list
-        if (isExistingUser()) {
-            List<String> cartData = retrieveCartData(userCartFile);
+        if(isExistingUser()) {
+            List<Map> cartData = readItemsFromFile(userCartFile);
             if (cartData.size() > 0) {
-                for (String itemData : cartData) {
-                    String[] itemDataSplit = itemData.split("x ");
-                    System.out.println(itemDataSplit);
-                    int itemQty = Integer.parseInt(itemDataSplit[0].trim());
-                    String itemName = itemDataSplit[1];
-                    Item item = new Item(itemName, itemQty);
-                    itemList.add(item);
+                for (Map<String, String> itemMap : cartData) {
+                    String id = itemMap.get("id");
+                    String name = itemMap.get("name");
+                    int qty = Integer.parseInt(itemMap.get("qty"));
+                    Item item = new Item(id, name, qty);
+                    cart.add(item);
                 }
             }
         }
-
-        return itemList;
+        return cart;
     }
 
     public void printCart() {
@@ -145,11 +138,15 @@ public class Cart implements Serializable {
         }
     }
 
+    //TODO: throw error if item already in list
     public void addItem(Item item) {
-        this.itemList.add(item);
-        this.saveCart();
+        if(!isItemInCart(item)) {
+            this.itemList.add(item);
+            this.saveCart();
+        }
     }
 
+    //TODO: check item by name
     public void deleteItem(Item item) {
         this.itemList.remove(item);
         this.saveCart();
