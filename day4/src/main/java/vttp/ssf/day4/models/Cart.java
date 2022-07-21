@@ -94,13 +94,28 @@ public class Cart implements Serializable {
         System.out.println("Cart saved");
     }
 
-    private boolean isItemInCart(Item item) {
+    private List<String> getItemNames() {
         List<String> itemNames = this.itemList
                                     .stream()
                                     .map(i -> i.getName())
                                     .toList();
+        return itemNames;
+    }
+
+    private boolean isItemInCart(Item item) {
+        List<String> itemNames = this.getItemNames();
         return itemNames.contains(item.getName());
     }
+
+    private int getIdxOfItem(Item item) {
+        List<String> itemNames = this.getItemNames();
+        for (int i = 0; i < itemNames.size(); i++) {
+            System.out.printf("%d. %s\n", i, itemNames.get(i));
+        }
+
+        return itemNames.indexOf(item.getName());
+    }
+
 
     // ******************************
     // * Public methods
@@ -139,17 +154,18 @@ public class Cart implements Serializable {
         }
     }
 
-    //TODO: throw error if item already in list
-    public void addItem(Item item) {
-        if(!isItemInCart(item)) {
-            this.itemList.add(item);
+    public void addItem(Item itemToAdd) {
+        if(!isItemInCart(itemToAdd)) {
+            this.itemList.add(itemToAdd);
             this.saveCart();
         }
     }
-
-    //TODO: check item by name
-    public void deleteItem(Item item) {
-        this.itemList.remove(item);
+    
+    // TODO: throw error if item not in list
+    public void deleteItem(Item itemToDelete) {
+        int idxToDelete = getIdxOfItem(itemToDelete);
+        System.out.println(idxToDelete);
+        this.itemList.remove(idxToDelete);
         this.saveCart();
     }
 
