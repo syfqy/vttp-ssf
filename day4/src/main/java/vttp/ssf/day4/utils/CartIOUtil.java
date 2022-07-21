@@ -31,7 +31,7 @@ public class CartIOUtil {
         }
     }
 
-    public static void writeToFile(File userCartFile, List<String> itemStringList) {
+    public static void writeItemsToFile(File userCartFile, List<String> itemStringList) {
 
         PrintWriter pw = null;
         try {

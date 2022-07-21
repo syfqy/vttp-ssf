@@ -68,7 +68,6 @@ public class Item implements Serializable{
     // * Public methods
     // ******************************
 
-
     public void incrementQty() {
         this.qty++;
     }

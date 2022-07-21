@@ -1,9 +1,7 @@
 package vttp.ssf.day4.models;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
-import java.nio.file.Files;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -92,12 +90,15 @@ public class Cart implements Serializable {
         List<String> itemStringList = itemList.stream()
                                             .map(item -> item.getItemString())
                                             .toList();
-        writeToFile(userCartFile, itemStringList);
+        writeItemsToFile(userCartFile, itemStringList);
         System.out.println("Cart saved");
     }
 
     private boolean isItemInCart(Item item) {
-        List<String> itemNames = this.itemList.stream().map(i -> i.getName()).toList();
+        List<String> itemNames = this.itemList
+                                    .stream()
+                                    .map(i -> i.getName())
+                                    .toList();
         return itemNames.contains(item.getName());
     }
 
