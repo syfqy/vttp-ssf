@@ -23,7 +23,7 @@ public class CartController {
     @Autowired
     Item itemName;
 
-    @GetMapping(value = { "/cart" })
+    @GetMapping(value = { "/" })
     public String showForm(Model model) {
         // on first page load
         model.addAttribute("cart", cart);
@@ -31,12 +31,12 @@ public class CartController {
         return "cart";
     }
 
-    @PostMapping(value = { "/cart" }) 
+    @GetMapping(value = {"/cart"})
     public String showEmptyCart() {
         return "frag/emptyCart :: empty-cart";
     }
 
-    @PostMapping(value = { "/cart/{username}" })
+    @GetMapping(value = { "/cart/{username}" })
     public String showUserCart(Model model, @PathVariable String username) {
 
         // if username entered, get user's cart and return template fragment
@@ -45,10 +45,9 @@ public class CartController {
         model.addAttribute("cart", userCart);
         System.out.println("Loading cart: " + userCart);
         return "frag/userCart :: user-cart";
-    
     }
     
-    @PostMapping(value = { "/add-item" })
+    @PostMapping(value = { "/cart/{username}/add-item/" })
     public String addItem(
         @ModelAttribute Item item,
         @ModelAttribute Cart cart,
@@ -61,7 +60,6 @@ public class CartController {
         
         // add new item to cart
         userCart.addItem(item);
-        // userCart.printCart();
         
         // add cart to model
         model.addAttribute("cart", userCart);
@@ -92,5 +90,30 @@ public class CartController {
 
         return "cart";
     }
+
+    @GetMapping(value = { "/cart/{username}/shift-item/" })
+    public String shiftItem(
+        @RequestParam (required=true) String itemName,
+        @ModelAttribute Item item,
+        @ModelAttribute Cart cart, 
+        Model model) {
+
+        // Get user's cart
+        String username = cart.getUsername();
+        Cart userCart = new Cart(username);
+
+        // shift item up
+        item.setName(itemName);
+        System.out.println("Item to shift: " + item);
+        userCart.shiftItemUp(item);
+
+        // add cart to model
+        model.addAttribute("cart", userCart);
+        System.out.printf("Shifted item: %s\n", item);
+
+        return "cart";
+    }
+
+
 
 }
