@@ -26,7 +26,7 @@ public class Cart implements Serializable {
     // ******************************
     // * Instance attributes
     // ******************************
-    
+
     private String username;
     private File userCartFile;
     public List<Item> itemList;
@@ -69,7 +69,7 @@ public class Cart implements Serializable {
     public List<Item> getItemList() {
         return itemList;
     }
-    
+
     public void setItemList(List<Item> itemList) {
         this.itemList = itemList;
     }
@@ -77,28 +77,28 @@ public class Cart implements Serializable {
     // ******************************
     // * Private methods
     // ******************************
-    
+
     private boolean isExistingUser() {
-            return userCartFile.exists();
-        }
-    
+        return userCartFile.exists();
+    }
+
     private void createUserCartFile() {
         createDir(userCartFile);
     }
 
     private void saveCart() {
         List<String> itemStringList = itemList.stream()
-                                            .map(item -> item.getItemString())
-                                            .toList();
+                .map(item -> item.getItemString())
+                .toList();
         writeItemsToFile(userCartFile, itemStringList);
         System.out.println("Cart saved");
     }
 
     private List<String> getItemNames() {
         List<String> itemNames = this.itemList
-                                    .stream()
-                                    .map(i -> i.getName())
-                                    .toList();
+                .stream()
+                .map(i -> i.getName())
+                .toList();
         return itemNames;
     }
 
@@ -116,7 +116,6 @@ public class Cart implements Serializable {
         return itemNames.indexOf(item.getName());
     }
 
-
     // ******************************
     // * Public methods
     // ******************************
@@ -124,7 +123,7 @@ public class Cart implements Serializable {
     public List<Item> loadCart(File userCartFile) {
         List<Item> cart = new LinkedList<Item>();
 
-        if(isExistingUser()) {
+        if (isExistingUser()) {
             List<Map> cartData = readItemsFromFile(userCartFile);
             if (cartData.size() > 0) {
                 for (Map<String, String> itemMap : cartData) {
@@ -145,32 +144,34 @@ public class Cart implements Serializable {
         }
     }
 
-    public void moveItemUp(Item item) {
-        int i = itemList.indexOf(item);
-        int j = i - 1;
-
-        if (i > 0) {
-            Collections.swap(itemList, i, j);
-        }
-    }
-
     public void addItem(Item itemToAdd) {
-        if(!isItemInCart(itemToAdd)) {
-            this.itemList.add(itemToAdd);
-            this.saveCart();
+        if (!isItemInCart(itemToAdd)) {
+            itemList.add(itemToAdd);
+            saveCart();
         }
     }
-    
+
     // TODO: throw error if item not in list
     public void deleteItem(Item itemToDelete) {
         int idxToDelete = getIdxOfItem(itemToDelete);
         System.out.println(idxToDelete);
-        this.itemList.remove(idxToDelete);
-        this.saveCart();
+        itemList.remove(idxToDelete);
+        saveCart();
+    }
+
+    public void shiftItemUp(Item itemToShift) {
+        int i = getIdxOfItem(itemToShift);
+        int j = i - 1;
+
+        if (i > 0) {
+            System.out.println("Shift");
+            Collections.swap(itemList, i, j);
+        }
+        saveCart();
     }
 
     public void clearCart() {
-        this.itemList.clear();
+        itemList.clear();
     }
 
     @Override

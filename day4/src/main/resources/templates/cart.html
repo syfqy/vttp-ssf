@@ -13,7 +13,7 @@
     </section>
 
     <section class="form">
-        <form id="form" action="#" th:action="@{/add-item}" method="post">
+        <form id="form" action="#" th:action="@{/cart/add-item}" method="post">
             <div>
                 Username:
                 <input id="username-input" type="text" th:field="${cart.username}">
@@ -33,15 +33,15 @@
             <ul>
                 <th:block th:each="item : ${cart.itemList}">
                     <li th:text="${item}"></li>
-                    <a th:href="@{/cart/{uid}/shift-up/{itemName}(uid=${cart.username},itemName=${item.name})}" href="#">Move up</a>
+                    <a th:href="@{/cart/{uid}/shift-item/(uid=${cart.username},itemName=${item.name})}" href="#">Move up</a>
                     <a th:href="@{/cart/{uid}/delete-item/(uid=${cart.username},itemName=${item.name})}" href="#">Delete</a>
                 </th:block>
             </ul>
         </div>
     </section>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" th:src="index.js"></script>
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="index.js"></script>
 
 </html>

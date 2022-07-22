@@ -38,7 +38,7 @@ public class CartController {
 
     @GetMapping(value = { "/cart/{username}" })
     public String showUserCart(Model model, @PathVariable String username) {
-
+        
         // if username entered, get user's cart and return template fragment
         System.out.println("Requested for " + username);
         Cart userCart = new Cart(username);
@@ -47,7 +47,8 @@ public class CartController {
         return "frag/userCart :: user-cart";
     }
     
-    @PostMapping(value = { "/cart/{username}/add-item/" })
+    // BUG: Triggers async GET request to showUserCart() after form submission with user="index.js"
+    @PostMapping(value = { "/cart/add-item" })
     public String addItem(
         @ModelAttribute Item item,
         @ModelAttribute Cart cart,
