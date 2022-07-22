@@ -25,6 +25,7 @@ public class CartIOUtil {
             cartFilesDir.mkdirs();
             try {
                 userCartFile.createNewFile();
+                logger.info("Created new user cart file at: " + userCartFile.toString());
             } catch (IOException e) {
                 logger.error(e.getMessage());
             }

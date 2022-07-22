@@ -23,7 +23,7 @@ public class CartController {
     @Autowired
     Item itemName;
 
-    private static final Logger logger = LoggerFactory.getLogger(Cart.class);
+    private static final Logger logger = LoggerFactory.getLogger(CartController.class);
 
     @GetMapping(value = { "/" })
     public String showForm(Model model) {
@@ -42,10 +42,9 @@ public class CartController {
     public String showUserCart(Model model, @PathVariable String username) {
         
         // if username entered, get user's cart and return template fragment
-        System.out.println("Requested for " + username);
         Cart userCart = new Cart(username);
         model.addAttribute("cart", userCart);
-        System.out.println("Loading cart: " + userCart);
+        logger.info("Loading cart: " + userCart);
         return "frag/userCart :: user-cart";
     }
     
@@ -65,7 +64,7 @@ public class CartController {
         
         // add cart to model
         model.addAttribute("cart", userCart);
-        System.out.printf("Added new item: %s\n", item);
+        logger.info("Added new item: " + item);
         
         return "cart";
     }
@@ -83,12 +82,11 @@ public class CartController {
 
         // delete item
         item.setName(itemName);
-        System.out.println("Item to delete: " + item);
         userCart.deleteItem(item);
 
         // add cart to model
         model.addAttribute("cart", userCart);
-        System.out.printf("Deleted item: %s\n", item);
+        logger.info("Deleted item: " + item);
 
         return "cart";
     }
@@ -106,12 +104,11 @@ public class CartController {
 
         // shift item up
         item.setName(itemName);
-        System.out.println("Item to shift: " + item);
         userCart.shiftItemUp(item);
 
         // add cart to model
         model.addAttribute("cart", userCart);
-        System.out.printf("Shifted item: %s\n", item);
+        logger.info("Shifted item up: %s\n", item);
 
         return "cart";
     }

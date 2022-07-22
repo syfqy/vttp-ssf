@@ -44,6 +44,7 @@ public class Cart implements Serializable {
         this.userCartFile = new File(defaultDataDir + "/" + username);
         this.createUserCartFile();
         this.itemList = loadCart(userCartFile);
+        logger.info("Created new cart for: " + username);
     }
 
     // ******************************
@@ -91,7 +92,7 @@ public class Cart implements Serializable {
                 .map(item -> item.getItemString())
                 .toList();
         writeItemsToFile(userCartFile, itemStringList);
-        System.out.println("Cart saved");
+        logger.info("Cart saved");
     }
 
     private List<String> getItemNames() {
@@ -109,10 +110,6 @@ public class Cart implements Serializable {
 
     private int getIdxOfItem(Item item) {
         List<String> itemNames = this.getItemNames();
-        for (int i = 0; i < itemNames.size(); i++) {
-            System.out.printf("%d. %s\n", i, itemNames.get(i));
-        }
-
         return itemNames.indexOf(item.getName());
     }
 
@@ -127,10 +124,9 @@ public class Cart implements Serializable {
             List<Map> cartData = readItemsFromFile(userCartFile);
             if (cartData.size() > 0) {
                 for (Map<String, String> itemMap : cartData) {
-                    String id = itemMap.get("id");
                     String name = itemMap.get("name");
                     int qty = Integer.parseInt(itemMap.get("qty"));
-                    Item item = new Item(id, name, qty);
+                    Item item = new Item(name, qty);
                     cart.add(item);
                 }
             }
@@ -140,7 +136,7 @@ public class Cart implements Serializable {
 
     public void printCart() {
         for (Item item : itemList) {
-            System.out.println(item);
+            logger.info(item.toString());
         }
     }
 
@@ -154,7 +150,6 @@ public class Cart implements Serializable {
     // TODO: throw error if item not in list
     public void deleteItem(Item itemToDelete) {
         int idxToDelete = getIdxOfItem(itemToDelete);
-        System.out.println(idxToDelete);
         itemList.remove(idxToDelete);
         saveCart();
     }
@@ -164,7 +159,6 @@ public class Cart implements Serializable {
         int j = i - 1;
 
         if (i > 0) {
-            System.out.println("Shift");
             Collections.swap(itemList, i, j);
         }
         saveCart();

@@ -21,7 +21,6 @@ public class Item implements Serializable{
     // ******************************
 
     public Item() {
-        this.id = UUID.randomUUID().toString();;
         this.qty = 1;
     }
     
@@ -30,8 +29,7 @@ public class Item implements Serializable{
         this.name = name;
     }
 
-    public Item(String id,String name, int qty) {
-        this.id = id;
+    public Item(String name, int qty) {
         this.name = name;
         this.qty = qty;
     }
