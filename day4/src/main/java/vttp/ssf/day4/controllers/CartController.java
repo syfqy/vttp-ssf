@@ -1,5 +1,7 @@
 package vttp.ssf.day4.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import vttp.ssf.day4.models.Cart;
 import vttp.ssf.day4.models.Item;
 
-// TODO: Replace print with logger
-// TODO: Replace home route "/" with "/cart"
 @Controller
 public class CartController {
 
@@ -22,6 +22,8 @@ public class CartController {
 
     @Autowired
     Item itemName;
+
+    private static final Logger logger = LoggerFactory.getLogger(Cart.class);
 
     @GetMapping(value = { "/" })
     public String showForm(Model model) {
@@ -47,7 +49,6 @@ public class CartController {
         return "frag/userCart :: user-cart";
     }
     
-    // BUG: Triggers async GET request to showUserCart() after form submission with user="index.js"
     @PostMapping(value = { "/cart/add-item" })
     public String addItem(
         @ModelAttribute Item item,
