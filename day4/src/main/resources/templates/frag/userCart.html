@@ -3,9 +3,17 @@
         <h2><span th:text="${cart.username}"></span>'s Shopping Cart: </h2>
         <ul>
             <th:block th:each="item : ${cart.itemList}">
-                <li th:text="${item}"></li>
-                <a th:href="@{/cart/{uid}/shift-item/(uid=${cart.username},itemName=${item.name})}" href="#">Move up</a>
-                <a th:href="@{/cart/{uid}/delete-item/(uid=${cart.username},itemName=${item.name})}" href="#">Delete</a>
+                <div>
+                    <li th:text="${item}"></li>
+                    <a th:href="@{/cart/{uid}/shift-item/(uid=${cart.username},itemName=${item.name})}"
+                        href="#">Move up</a>
+                    <a th:href="@{/cart/{uid}/increment-item/(uid=${cart.username},itemName=${item.name})}"
+                        href="#">+</a>
+                    <a th:href="@{/cart/{uid}/decrement-item/(uid=${cart.username},itemName=${item.name})}"
+                        href="#">-</a>
+                    <a th:href="@{/cart/{uid}/delete-item/(uid=${cart.username},itemName=${item.name})}"
+                        href="#">Delete</a>
+                </div>
             </th:block>
         </ul>
     </div>

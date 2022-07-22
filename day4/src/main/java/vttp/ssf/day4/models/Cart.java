@@ -164,6 +164,25 @@ public class Cart implements Serializable {
         saveCart();
     }
 
+    public void incrementItem(Item itemToIncrement) {
+        int i = getIdxOfItem(itemToIncrement);
+        Item item = itemList.get(i);
+        item.incrementQty();
+        saveCart();
+    }
+
+    public void decrementItem(Item itemToDecrement) {
+        int i = getIdxOfItem(itemToDecrement);
+        Item item = itemList.get(i);
+        item.decrementQty();
+        if (item.getQty() > 0) {
+            saveCart();
+        } else {
+            deleteItem(item);
+        }
+        
+    }
+
     public void clearCart() {
         itemList.clear();
     }

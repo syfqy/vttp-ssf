@@ -1,7 +1,6 @@
 package vttp.ssf.day4.models;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
@@ -76,6 +75,7 @@ public class Item implements Serializable{
         }
 
     }
+
     public void deleteItem() {
         this.qty = 0;
     }
@@ -87,7 +87,6 @@ public class Item implements Serializable{
 
     public String getItemString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("id: " + id + ", ");
         sb.append("name: " + name + ", ");
         sb.append("qty: " + String.valueOf(qty));
 

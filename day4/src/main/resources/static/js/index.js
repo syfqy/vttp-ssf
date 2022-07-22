@@ -5,7 +5,6 @@ $(document).ready(() => {
     $("#username-input").focusout(() => {
 
         const username = $("#username-input")[0].value
-        console.log("Getting user cart for "+ username);
 
         // async GET request to fetch user's cart
         fetch("/cart/" + username)

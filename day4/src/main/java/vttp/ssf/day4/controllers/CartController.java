@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import vttp.ssf.day4.models.Cart;
 import vttp.ssf.day4.models.Item;
 
+//TODO: Extract common subroutines (e.g getting user cart etc)
 @Controller
 public class CartController {
 
@@ -33,48 +34,49 @@ public class CartController {
         return "cart";
     }
 
-    @GetMapping(value = {"/cart"})
+    @GetMapping(value = { "/cart" })
     public String showEmptyCart() {
         return "frag/emptyCart :: empty-cart";
     }
 
     @GetMapping(value = { "/cart/{username}" })
     public String showUserCart(Model model, @PathVariable String username) {
-        
+
         // if username entered, get user's cart and return template fragment
         Cart userCart = new Cart(username);
         model.addAttribute("cart", userCart);
         logger.info("Loading cart: " + userCart);
         return "frag/userCart :: user-cart";
     }
-    
+
     @PostMapping(value = { "/cart/add-item" })
     public String addItem(
-        @ModelAttribute Item item,
-        @ModelAttribute Cart cart,
-        Model model) {
-        
+            @ModelAttribute Item item,
+            @ModelAttribute Cart cart,
+            Model model) {
+
         // Get user's cart
         String username = cart.getUsername();
-        // SMELL: Need to instantiate new Cart each time since item data not sent to controller
+        // SMELL: Need to instantiate new Cart each time since item data not sent to
+        // controller
         Cart userCart = new Cart(username);
-        
+
         // add new item to cart
         userCart.addItem(item);
-        
+
         // add cart to model
         model.addAttribute("cart", userCart);
         logger.info("Added new item: " + item);
-        
+
         return "cart";
     }
 
     @GetMapping(value = { "/cart/{username}/delete-item/" })
     public String deleteItem(
-        @RequestParam (required=true) String itemName,
-        @ModelAttribute Item item,
-        @ModelAttribute Cart cart, 
-        Model model) {
+            @RequestParam(required = true) String itemName,
+            @ModelAttribute Item item,
+            @ModelAttribute Cart cart,
+            Model model) {
 
         // Get user's cart
         String username = cart.getUsername();
@@ -93,10 +95,10 @@ public class CartController {
 
     @GetMapping(value = { "/cart/{username}/shift-item/" })
     public String shiftItem(
-        @RequestParam (required=true) String itemName,
-        @ModelAttribute Item item,
-        @ModelAttribute Cart cart, 
-        Model model) {
+            @RequestParam(required = true) String itemName,
+            @ModelAttribute Item item,
+            @ModelAttribute Cart cart,
+            Model model) {
 
         // Get user's cart
         String username = cart.getUsername();
@@ -113,6 +115,51 @@ public class CartController {
         return "cart";
     }
 
+    @GetMapping(value = { "/cart/{username}/increment-item/" })
+    public String incrementItem(
+            @RequestParam(required = true) String itemName,
+            @ModelAttribute Item item,
+            @ModelAttribute Cart cart,
+            Model model) {
 
+        // Get user's cart
+        String username = cart.getUsername();
+        Cart userCart = new Cart(username);
+
+        // get item
+        item.setName(itemName);
+        System.out.println(item);
+
+        // increment item qty
+        userCart.incrementItem(item);
+
+        // add cart to model
+        model.addAttribute("cart", userCart);
+
+        return "cart";
+    }
+
+    @GetMapping(value = { "/cart/{username}/decrement-item/" })
+    public String decrementItem(
+            @RequestParam(required = true) String itemName,
+            @ModelAttribute Item item,
+            @ModelAttribute Cart cart,
+            Model model) {
+
+        // Get user's cart
+        String username = cart.getUsername();
+        Cart userCart = new Cart(username);
+
+        // get item
+        item.setName(itemName);
+
+        // decrement item qty
+        userCart.decrementItem(item);
+
+        // add cart to model
+        model.addAttribute("cart", userCart);
+
+        return "cart";
+    }
 
 }
