@@ -1,0 +1,133 @@
+/* bg */
+
+html {
+    background-color: gainsboro;
+    font-family: "Lato";
+}
+
+.main {
+    display: flex;
+    justify-content: center;
+    column-gap: 1rem;
+}
+
+.cart {
+    background-color: whitesmoke;
+    display: flex;
+    flex-direction: column;;
+    border-radius: 8px;
+    min-height: 220px;
+    padding: 0rem 2rem;
+    width: 480px;
+}
+
+.cart-list {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.item-card {
+    display: flex;
+    border-top: 1px solid rgba(35, 35, 35, 0.2);
+    padding: 1rem 0rem;
+    column-gap: 1rem;
+}
+
+.item-img {
+    height: 100px;
+    width: 100px;
+    border-radius: 8px;
+}
+
+.summary {
+    background-color: whitesmoke;
+    border-radius: 8px;
+    height: fit-content;
+}
+
+.summary > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border-radius: 8px;
+    min-height: 220px;
+    padding: 1rem 2rem;
+    align-items: center;
+    gap: 1rem;
+}
+
+.item-form {
+    display:grid;
+    grid-template-areas: "a b ."
+                        "d e f";
+
+    grid-gap : 0.5rem;
+    text-align: right;
+}
+
+#username-lbl {
+    grid-area: a;
+}
+
+#username-input {
+    grid-area: b;
+}
+
+#item-lbl {
+    grid-area: d;
+}
+
+#item-input {
+    grid-area: e;
+}
+
+#add-item-btn {
+    grid-area: f;
+}
+
+.item-details-wrapper {
+    width: 100%;
+}
+
+.item-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.item-qty {
+    display: inline;
+}
+
+.item-ctrl-wrapper {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.item-ctrl {
+    padding: 0.5rem;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+}
+
+.bi {
+    color: #636263;
+    font-size: 1.15rem;
+}
+
+.total-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.btn {
+    width: 100%;
+    border-radius: 4px;
+    border: none;
+    background-color: #006ee6;
+    color: white;
+    padding: 0.5rem 0rem;
+}
