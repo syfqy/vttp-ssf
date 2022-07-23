@@ -21,6 +21,7 @@ html {
     padding: 0rem 2rem;
     min-width: 480px;
     max-width: 70%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .cart-list {
@@ -57,6 +58,8 @@ html {
     padding: 1rem 2rem;
     align-items: center;
     gap: 1rem;
+    /* border: 1px solid rgba(35, 35, 35, 0.1); */
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .summary > div hr {
