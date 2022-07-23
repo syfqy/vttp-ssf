@@ -17,6 +17,7 @@ public class CartIOUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(CartIOUtil.class);
 
+    // FIXME: Check user cart file is a file and not dir in case of empty user
     public static void createDir(File userCartFile) {
 
         File cartFilesDir = userCartFile.getParentFile();

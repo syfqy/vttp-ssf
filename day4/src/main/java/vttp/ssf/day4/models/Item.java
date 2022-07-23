@@ -73,7 +73,6 @@ public class Item implements Serializable{
         if(this.qty > 0) {
             this.qty--;
         }
-
     }
 
     public void deleteItem() {
@@ -86,12 +85,12 @@ public class Item implements Serializable{
     }
 
     public String getItemString() {
+        // returns item string to be written to file
         StringBuilder sb = new StringBuilder();
         sb.append("name: " + name + ", ");
         sb.append("qty: " + String.valueOf(qty));
 
         return sb.toString();
-
     }
 
 }

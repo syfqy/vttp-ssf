@@ -36,13 +36,14 @@ public class CartController {
 
     @GetMapping(value = { "/cart" })
     public String showEmptyCart() {
+        // show empty cart when no username entered
         return "frag/emptyCart :: empty-cart";
     }
 
     @GetMapping(value = { "/cart/{username}" })
     public String showUserCart(Model model, @PathVariable String username) {
 
-        // if username entered, get user's cart and return template fragment
+        // if username entered, get and return user's cart list
         Cart userCart = new Cart(username);
         model.addAttribute("cart", userCart);
         logger.info("Loading cart: " + userCart);
@@ -55,10 +56,9 @@ public class CartController {
             @ModelAttribute Cart cart,
             Model model) {
 
+        // SMELL: Need to instantiate new Cart each time since item data not sent to controller
         // Get user's cart
         String username = cart.getUsername();
-        // SMELL: Need to instantiate new Cart each time since item data not sent to
-        // controller
         Cart userCart = new Cart(username);
 
         // add new item to cart

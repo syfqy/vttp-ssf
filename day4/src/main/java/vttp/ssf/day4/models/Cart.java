@@ -158,6 +158,7 @@ public class Cart implements Serializable {
         int i = getIdxOfItem(itemToShift);
         int j = i - 1;
 
+        // swap indexes of curr item and item before in list
         if (i > 0) {
             Collections.swap(itemList, i, j);
         }
